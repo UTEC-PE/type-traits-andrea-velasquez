@@ -8,8 +8,14 @@ class DListIterator : public Iterator<T> {
     public: 
         DListIterator() : Iterator<T>() {};
         DListIterator(Node<T> *current) : Iterator<T>(current) {};
-        DListIterator<T> operator++();
-        DListIterator<T> operator--();
+        DListIterator<T> operator++(){
+          this->current = this->current->next;
+          return *this;
+        };
+        DListIterator<T> operator--(){
+          this->current = this->current->prev;
+          return *this;
+        };
 };
 
 template <typename Tr>
@@ -28,27 +34,57 @@ class DList {
         };
 
         void push_front(T data) {
-            // TODO
+          //Create new node
+          Node<T>* newnode = new Node<T>(data);
+          newnode->next = head;
+          newnode->prev = nullptr;
+          //Change prev head
+          if (head){ head->prev = newnode; }
+          else { this->tail=newnode; }
+          //Change head for new node
+          this->head=newnode;
         }
 
         void push_back(T data) {
-            // TODO
+          Node<T>* newnode = new Node<T>(data);
+          newnode->prev = tail;
+          newnode->next = nullptr;
+
+          //Make tail point new node
+          if (head) { tail->next = newnode; }
+          else{ head=newnode; }
+
+          //Change tail for new node
+          this->tail=newnode;
         }
              
         void pop_front() {
-            // TODO
+          if (!head) throw "Can not delete element in empty list";
+          Node<T>* secondnode = head->next;
+          secondnode->prev = nullptr;
+          head=nullptr;
+          delete head;
+          head = secondnode;
         }
              
         void pop_back() {
-            // TODO
+          if (!head) throw "Can not delete element in empty list";
+          Node<T>* secondlast = tail->prev;
+          //Erase content of previous tail
+          tail = nullptr;
+          delete tail;
+          //Change tail for second last node
+          tail = secondlast;
         }
              
         iterator begin() {
-            // TODO
+          iterator it(head);
+          return it;
         }
              
         iterator end() {
-            // TODO
+          iterator it(nullptr);
+          return it;
         }
              
         ~DList() {
