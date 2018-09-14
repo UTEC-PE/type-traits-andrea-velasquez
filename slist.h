@@ -8,7 +8,7 @@ class SListIterator : public Iterator<T> {
     public: 
         SListIterator() : Iterator<T>() {};
         SListIterator(Node<T> *current) : Iterator<T>(current) {};
-        SListIterator<T> operator++();
+        SListIterator<T> operator++() {
           this->current = this->current->next;
           return *this;
         };
@@ -40,7 +40,7 @@ class SList {
           return false;
         }
              
-        bool insert(T data) {
+        bool insert(T data) { // Mucha lógica aquí, esto se podría reducir bastante
           Node<T>* newnode = new Node<T>(data);
           if (!head){ //empty
             head = newnode;

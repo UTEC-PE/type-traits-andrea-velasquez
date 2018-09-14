@@ -63,7 +63,7 @@ class DList {
           Node<T>* secondnode = head->next;
           secondnode->prev = nullptr;
           head=nullptr;
-          delete head;
+          delete head; // Aquí no estás borrando, el delete debería ser antes
           head = secondnode;
         }
              
@@ -72,7 +72,7 @@ class DList {
           Node<T>* secondlast = tail->prev;
           //Erase content of previous tail
           tail = nullptr;
-          delete tail;
+          delete tail; // Aquí no estás borrando, el delete debería ser antes
           //Change tail for second last node
           tail = secondlast;
         }
